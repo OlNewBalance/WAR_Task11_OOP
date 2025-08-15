@@ -1,4 +1,4 @@
-﻿namespace WAR_Task13_OOP
+namespace WAR_Task13_OOP
 {
     public class Program
     {
@@ -6,6 +6,5 @@
         {
             GameCycle.GameMenu();
         }
-        
     }
 }

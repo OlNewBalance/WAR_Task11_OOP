@@ -1,17 +1,28 @@
-﻿namespace WAR_Task13_OOP;
+namespace WAR_Task13_OOP;
 
-public class Soldier
+public abstract class Soldier
 {
-        public int HP;
-        public int Defense;
-        public int MinAttack;
-        public int MaxAttack;
+    public int HealthPoint;
+    public int Defense;
+    public int MaxAttack;
+    public int MinAttack;
+    public bool IsAlive = true;
 
-        public Soldier(int healthPoint, int defense, int minAttack,int maxAttack)
-        {
-                HP = healthPoint;
-                Defense = defense;
-                MinAttack = minAttack;
-                MaxAttack = maxAttack;
-        }
+    public string Type { get; } // для визора (опционально)
+
+    protected Soldier(int healthPoint, int defense, int maxAttack, int minAttack, string type)
+    {
+        HealthPoint = healthPoint;
+        Defense     = defense;
+        MaxAttack   = maxAttack;
+        MinAttack   = minAttack;
+        Type        = type;
+    }
+
+    public abstract Soldier Clone();
+    
+    public override string ToString()
+    {
+        return $"{Type}: HP={HealthPoint}, DEF={Defense}, ATK={MinAttack}-{MaxAttack}";
+    }
 }

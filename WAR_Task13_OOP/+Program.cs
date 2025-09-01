@@ -4,7 +4,8 @@ namespace WAR_Task13_OOP
     {
         public static void Main()
         {
-            GameCycle.GameMenu();
+            var game = new GameCycle();
+            game.GameMenu();
         }
     }
 }

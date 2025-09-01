@@ -10,3 +10,4 @@ public class Artillery : Soldier
 
     public override Soldier Clone() => new Artillery(HealthPoint, Defense, MaxAttack, MinAttack);
 }
+

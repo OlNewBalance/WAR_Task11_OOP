@@ -2,12 +2,12 @@ namespace WAR_Task13_OOP;
 
 public class BattleInterface
 {
-    public static string GetBar(int value, int max, int width)
+    public string GetBar(int value, int max, int width)
     {
         int filled = (int)Math.Round((double)value / max * width);
         return new string('/', filled).PadRight(width, '_');
     }
-    public static void DrawBattleVisor(List<Soldier> playerArmy, List<Soldier> enemyArmy)
+    public void DrawBattleVisor(List<Soldier> playerArmy, List<Soldier> enemyArmy)
     {
 
         string[] types = { "Infantry", "Guard", "Cavalry", "Artillery" };

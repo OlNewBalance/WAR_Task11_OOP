@@ -10,3 +10,4 @@ public class Cavalry : Soldier
 
     public override Soldier Clone() => new Cavalry(HealthPoint, Defense, MaxAttack, MinAttack);
 }
+

@@ -1,40 +1,44 @@
+namespace WAR_Task13_OOP;
+
 public class DeffGeneral
 {
-    public static string GeneralName { get; set; }
-    public static int GeneralDefenseBuff;
+    public string GeneralName { get; set; }
+    public int GeneralDefenseBuff;
+    private readonly Data _data;
 
-    public DeffGeneral(string generalName, int generalDefenseBuff)
+    public DeffGeneral(string generalName, int generalDefenseBuff, Data data)
     {
+        _data = data;
         GeneralName = generalName;
-        generalName = Data.PlayerGeneralNameInput;
+        generalName = _data.PlayerGeneralNameInput;
         GeneralDefenseBuff = generalDefenseBuff;
-        generalDefenseBuff = 5;
+        generalDefenseBuff = Data.GeneralDefenseBuff;
     }
 
-    public static void DeffenseBuff()
+    public void DeffenseBuff()
     {
-        if (Data.GeneralIsDeff == true)
+        if (_data.GeneralIsDeff == true)
         {
-            Data.myArtillery.Defense += GeneralDefenseBuff;
-            Data.myArtillery.Defense += GeneralDefenseBuff;
-            Data.myInfantry.Defense += GeneralDefenseBuff;
-            Data.myInfantry.Defense += GeneralDefenseBuff;
-            Data.myCavalry.Defense += GeneralDefenseBuff;
-            Data.myCavalry.Defense += GeneralDefenseBuff;
-            Data.myGuard.Defense += GeneralDefenseBuff;
-            Data.myGuard.Defense += GeneralDefenseBuff;
+            _data.myArtillery.Defense += GeneralDefenseBuff;
+            _data.myArtillery.Defense += GeneralDefenseBuff;
+            _data.myInfantry.Defense += GeneralDefenseBuff;
+            _data.myInfantry.Defense += GeneralDefenseBuff;
+            _data.myCavalry.Defense += GeneralDefenseBuff;
+            _data.myCavalry.Defense += GeneralDefenseBuff;
+            _data.myGuard.Defense += GeneralDefenseBuff;
+            _data.myGuard.Defense += GeneralDefenseBuff;
         }
 
-        if (Data.GeneralIsSelectedByEnemy == true)
+        if (_data.GeneralIsSelectedByEnemy == true)
         {
-            Data.enemyArtillery.Defense += GeneralDefenseBuff;
-            Data.enemyArtillery.Defense += GeneralDefenseBuff;
-            Data.enemyInfantry.Defense += GeneralDefenseBuff;
-            Data.enemyInfantry.Defense += GeneralDefenseBuff;
-            Data.enemyCavalry.Defense += GeneralDefenseBuff;
-            Data.enemyCavalry.Defense += GeneralDefenseBuff;
-            Data.enemyGuard.Defense += GeneralDefenseBuff;
-            Data.enemyGuard.Defense += GeneralDefenseBuff;
+            _data.enemyArtillery.Defense += GeneralDefenseBuff;
+            _data.enemyArtillery.Defense += GeneralDefenseBuff;
+            _data.enemyInfantry.Defense += GeneralDefenseBuff;
+            _data.enemyInfantry.Defense += GeneralDefenseBuff;
+            _data.enemyCavalry.Defense += GeneralDefenseBuff;
+            _data.enemyCavalry.Defense += GeneralDefenseBuff;
+            _data.enemyGuard.Defense += GeneralDefenseBuff;
+            _data.enemyGuard.Defense += GeneralDefenseBuff;
         }
     }
 }

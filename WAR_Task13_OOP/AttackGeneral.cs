@@ -1,42 +1,42 @@
-namespace WAR_Task13_OOP;
-
 public class AttackGeneral
 {
-    public static string GeneralName { get; set; }
-    public static int GeneralAttackBuff;
+    private readonly Data _data;
+    public string GeneralName { get; set; }
+    public int GeneralAttackBuff;
 
-    public AttackGeneral(string generalName, int generalAttackBuff)
+    public AttackGeneral(string generalName, int generalAttackBuff, Data data)
     {
+        _data = data;
         GeneralName = generalName;
-        generalName = Data.PlayerGeneralNameInput;
+        generalName = _data.PlayerGeneralNameInput;
         GeneralAttackBuff = generalAttackBuff;
-        generalAttackBuff = 5;
+        generalAttackBuff = Data.GeneralAttackBuff;
     }
 
-    public static void AttackBuff()
+    public void AttackBuff()
     {
-        if (Data.GeneralIsAttack == true)
+        if (_data.GeneralIsAttack == true)
         {
-            Data.myArtillery.MaxAttack += GeneralAttackBuff;
-            Data.myArtillery.MinAttack += GeneralAttackBuff;
-            Data.myInfantry.MaxAttack += GeneralAttackBuff;
-            Data.myInfantry.MinAttack += GeneralAttackBuff;
-            Data.myCavalry.MaxAttack += GeneralAttackBuff;
-            Data.myCavalry.MinAttack += GeneralAttackBuff;
-            Data.myGuard.MaxAttack += GeneralAttackBuff;
-            Data.myGuard.MinAttack += GeneralAttackBuff;
+            _data.myArtillery.MaxAttack += GeneralAttackBuff;
+            _data.myArtillery.MinAttack += GeneralAttackBuff;
+            _data.myInfantry.MaxAttack += GeneralAttackBuff;
+            _data.myInfantry.MinAttack += GeneralAttackBuff;
+            _data.myCavalry.MaxAttack += GeneralAttackBuff;
+            _data.myCavalry.MinAttack += GeneralAttackBuff;
+            _data.myGuard.MaxAttack += GeneralAttackBuff;
+            _data.myGuard.MinAttack += GeneralAttackBuff;
         }
 
-        if (Data.GeneralIsSelectedByEnemy == true)
+        if (_data.GeneralIsSelectedByEnemy == true)
         {
-            Data.enemyArtillery.MaxAttack += GeneralAttackBuff;
-            Data.enemyArtillery.MinAttack += GeneralAttackBuff;
-            Data.enemyInfantry.MaxAttack += GeneralAttackBuff;
-            Data.enemyInfantry.MinAttack += GeneralAttackBuff;
-            Data.enemyCavalry.MaxAttack += GeneralAttackBuff;
-            Data.enemyCavalry.MinAttack += GeneralAttackBuff;
-            Data.enemyGuard.MaxAttack += GeneralAttackBuff;
-            Data.enemyGuard.MinAttack += GeneralAttackBuff;
+            _data.enemyArtillery.MaxAttack += GeneralAttackBuff;
+            _data.enemyArtillery.MinAttack += GeneralAttackBuff;
+            _data.enemyInfantry.MaxAttack += GeneralAttackBuff;
+            _data.enemyInfantry.MinAttack += GeneralAttackBuff;
+            _data.enemyCavalry.MaxAttack += GeneralAttackBuff;
+            _data.enemyCavalry.MinAttack += GeneralAttackBuff;
+            _data.enemyGuard.MaxAttack += GeneralAttackBuff;
+            _data.enemyGuard.MinAttack += GeneralAttackBuff;
         }
     }
 }

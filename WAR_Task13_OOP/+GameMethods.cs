@@ -1,10 +1,17 @@
 namespace WAR_Task13_OOP;
 
-public static class GameMethods
+public class GameMethods
 {
+    private readonly Data _data;
+    GameCycle gameCycle;
     private static readonly Random random = new Random();
 
-    public static int MedicalUnitRemoval(List<Soldier> army)
+    public GameMethods(Data data)
+    {
+        _data = data;
+    }
+    
+    public int MedicalUnitRemoval(List<Soldier> army)
     {
         int healed = 0;
         foreach (var s in army.Where(x => x.IsAlive && x.HealthPoint < 100))
@@ -12,7 +19,7 @@ public static class GameMethods
         return healed;
     }
 
-    public static int Attacking(List<Soldier> atk, List<Soldier> def)
+    public int Attacking(List<Soldier> atk, List<Soldier> def)
     {
         int kills = 0;
         foreach (var a in atk.Where(x => x.IsAlive))
@@ -33,7 +40,7 @@ public static class GameMethods
     }
 
 
-    public static int SuperAttacking(List<Soldier> atk, List<Soldier> def)
+    public int SuperAttacking(List<Soldier> atk, List<Soldier> def)
     {
         int kills = 0;
         foreach (var a in atk.Where(x => x.IsAlive))
@@ -50,46 +57,46 @@ public static class GameMethods
         return kills;
     }
 
-    public static int Defending(List<Soldier> army)
+    public int Defending(List<Soldier> army)
     {
         int affected = 0;
         foreach (var s in army.Where(x => x.IsAlive)) { s.Defense += Data.perUnit; affected++; }
         return Data.perUnit;               // печатаем прирост на одного бойца
     }
 
-    public static int DefendingDebaff(List<Soldier> army)
+    public int DefendingDebaff(List<Soldier> army)
     {
         foreach (var s in army.Where(x => x.IsAlive))
             s.Defense = Math.Max(0, s.Defense - Data.perUnit);
         return Data.perUnit;
     }
-    private static void AddCopies(List<Soldier> army, Soldier template, int count)
+    private void AddCopies(List<Soldier> army, Soldier template, int count)
     {
         for (int i = 0; i < count; i++)
             army.Add(template.Clone());
     }
 
-    public static void FillPlayerArmyFromTemplates(int infantryCount, int guardCount, int cavalryCount, int artilleryCount)
+    public void FillPlayerArmyFromTemplates(int infantryCount, int guardCount, int cavalryCount, int artilleryCount)
     {
-        Data.playerArmy.Clear();
+        _data.playerArmy.Clear();
 
-        AddCopies(Data.playerArmy, Data.myInfantry,  infantryCount);
-        AddCopies(Data.playerArmy, Data.myGuard,     guardCount);
-        AddCopies(Data.playerArmy, Data.myCavalry,   cavalryCount);
-        AddCopies(Data.playerArmy, Data.myArtillery, artilleryCount);
+        AddCopies(_data.playerArmy, _data.myInfantry,  infantryCount);
+        AddCopies(_data.playerArmy, _data.myGuard,     guardCount);
+        AddCopies(_data.playerArmy, _data.myCavalry,   cavalryCount);
+        AddCopies(_data.playerArmy, _data.myArtillery, artilleryCount);
     }
 
-    public static void FillEnemyArmyFromTemplates(int infantryCount, int guardCount, int cavalryCount, int artilleryCount)
+    public void FillEnemyArmyFromTemplates(int infantryCount, int guardCount, int cavalryCount, int artilleryCount)
     {
-        Data.enemyArmy.Clear();
+        _data.enemyArmy.Clear();
 
-        AddCopies(Data.enemyArmy, Data.enemyInfantry,  infantryCount);
-        AddCopies(Data.enemyArmy, Data.enemyGuard,     guardCount);
-        AddCopies(Data.enemyArmy, Data.enemyCavalry,   cavalryCount);
-        AddCopies(Data.enemyArmy, Data.enemyArtillery, artilleryCount);
+        AddCopies(_data.enemyArmy, _data.enemyInfantry,  infantryCount);
+        AddCopies(_data.enemyArmy, _data.enemyGuard,     guardCount);
+        AddCopies(_data.enemyArmy, _data.enemyCavalry,   cavalryCount);
+        AddCopies(_data.enemyArmy, _data.enemyArtillery, artilleryCount);
     }
 
-    public static void EnemyTurn()
+    public void EnemyTurn()
     {
         int enemyTurnRoll = random.Next(1, 14);
         switch (enemyTurnRoll)
@@ -98,51 +105,47 @@ public static class GameMethods
             case 2:
             case 3:
             case 4:
-                GameMethods.Attacking(Data.enemyArmy, Data.playerArmy);
-                int killed = GameMethods.SuperAttacking(Data.enemyArmy, Data.playerArmy);
+                int killed = SuperAttacking(_data.enemyArmy, _data.playerArmy);
                 Console.WriteLine($"Армия противника наступает на ваши позиции! " +
-                                  $"Ваши потери: {Data.EnemyLosses} чел.");
-                Data.PlayerHasActed = true;
+                                  $"Ваши потери: {_data.EnemyLosses} чел.");
+                _data.PlayerHasActed = true;
                 break;
             case 5:
             case 6:
-                GameMethods.SuperAttacking(Data.enemyArmy, Data.playerArmy);
-                int killed2 = GameMethods.SuperAttacking(Data.enemyArmy, Data.playerArmy);
+                int killed2 = SuperAttacking(_data.enemyArmy, _data.playerArmy);
                 Console.WriteLine($"Армия противника проводит отчаянную атаку на ваши позиции! " +
                                   $"Ваши потери: {killed2} чел.");
-                Data.PlayerHasActed = true;
+                _data.PlayerHasActed = true;
                 break;
             case 7:
             case 8:
             case 9:
-                GameMethods.Defending(Data.enemyArmy);
-                int perUnit = GameMethods.Defending(Data.enemyArmy);
+                int perUnit = Defending(_data.enemyArmy);
                 Console.WriteLine($"Армия противника проводит укрепление траншей! " +
                                   $"Укрепленность увеличилась на: {perUnit}, на бойца, единиц на ход.");
                 
-                Data.PlayerHasActed = true;
+                _data.PlayerHasActed = true;
                 break;
             case 10:
             case 11:
-                GameMethods.MedicalUnitRemoval(Data.enemyArmy);
-                int healed = GameMethods.MedicalUnitRemoval(Data.enemyArmy);
+                int healed = MedicalUnitRemoval(_data.enemyArmy);
                 Console.WriteLine($"Вражеский МедСанБат прибыл, и вылечил раненных солдат противника! " +
                                   $"Вылечено бойцов: {healed}.");
-                Data.PlayerHasActed = true;
+                _data.PlayerHasActed = true;
                 break;
             case 12:
             case 13:
                 Console.WriteLine($"Разведка противника провела диверсию в ваших логистических цепочках! " +
                                   $"Ваша обороноспособность упала на: {Data.DefenseDebaff} единиц.");
-                DefendingDebaff(Data.playerArmy);
+                DefendingDebaff(_data.playerArmy);
                 break;
             case 14:
-                if (Data.enemyArmy.Count < 60)
+                if (_data.enemyArmy.Count < 60)
                 {
                     Console.WriteLine($"Армия противника отступает!");
-                    Data.EnemyIsSurrender = true;
+                    _data.EnemyIsSurrender = true;
                 }
-                else if (Data.enemyArmy.Count > 60)
+                else if (_data.enemyArmy.Count > 60)
                 {
                     return;
                 }
@@ -154,12 +157,12 @@ public static class GameMethods
         }
     }
     
-    public static void SafeModifyAttack(Soldier unit, int minMod, int maxMod)
+    public void SafeModifyAttack(Soldier unit, int minMod, int maxMod)
     {
         unit.MaxAttack = Math.Max(unit.MinAttack + 1, unit.MaxAttack + maxMod);
         unit.MinAttack = Math.Min(unit.MaxAttack - 1, unit.MinAttack + minMod);
     }
-    public static int GetSafeAttackDamage(Soldier attacker)
+    public int GetSafeAttackDamage(Soldier attacker)
     {
         // Гарантируем корректные значения
         int min = Math.Min(attacker.MinAttack, attacker.MaxAttack - 1);
@@ -176,19 +179,17 @@ public static class GameMethods
         return random.Next(min, max + 1);
     }
 
-    public static void Surrender()
+    public void Surrender()
     {
-        if (Data.PlayerIsSurrender == true)
+        if (_data.PlayerIsSurrender == true)
         {
-            Console.WriteLine($"Генерал {Data.EnemyGeneralNameInput} (враг) вынудил ваше войско " +
-                              $"{Data.PlayerGeneralNameInput} отступить!!!");
-            GameCycle.GameMenu();
+            Console.WriteLine($"Генерал {_data.EnemyGeneralNameInput} (враг) вынудил ваше войско " +
+                              $"{_data.PlayerGeneralNameInput} отступить!!!");
         }
-        else if (Data.EnemyIsSurrender == true)
+        else if (_data.EnemyIsSurrender == true)
         {
-            Console.WriteLine($"Вы, генерал {Data.PlayerGeneralNameInput}, вынудили вражеское войско " +
-                              $"{Data.EnemyGeneralNameInput} отступить!!!");
-            GameCycle.GameMenu();
+            Console.WriteLine($"Вы, генерал {_data.PlayerGeneralNameInput}, вынудили вражеское войско " +
+                              $"{_data.EnemyGeneralNameInput} отступить!!!");
         }
        
     }
